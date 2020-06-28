@@ -1,5 +1,7 @@
 # vue-di
 
+under development!
+
 ## Project setup
 ```
 npm install
