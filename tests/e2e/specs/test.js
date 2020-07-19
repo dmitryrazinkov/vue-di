@@ -1,8 +1,21 @@
 // https://docs.cypress.io/api/introduction/api.html
 
-describe("My First Test", () => {
-  it("Visits the app root url", () => {
+import { container } from "../../../src/services/container.ts";
+
+describe("Login Form Test", () => {
+  it("Login button", () => {
+    cy.visit("/login");
+    cy.contains("button", "Login");
+  });
+});
+
+describe("H1 test", () => {
+  beforeEach(() => {
+    container.dep = "1.2";
+  });
+
+  it("text", () => {
     cy.visit("/");
-    cy.contains("h1", "Welcome to Your Vue.js + TypeScript App");
+    cy.contains("h1", "1.2.3");
   });
 });
