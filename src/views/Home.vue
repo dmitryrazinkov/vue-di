@@ -3,19 +3,20 @@
     Home!
   </div>
   <h1>
-    {{ testValue }}
+    {{ value }}
   </h1>
+  <button @click="updateDep">Set</button>
 </template>
 
 <script lang="ts">
 import { Vue } from "vue-class-component";
-import { container } from "@/services/container";
+import container from "@/services/container";
 
 export default class Home extends Vue {
-  testValue = "";
+  value = container.get("dep");
 
-  created() {
-    this.testValue = container.dep;
+  updateDep() {
+    this.value = container.get("dep");
   }
 }
 </script>

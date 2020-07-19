@@ -1,7 +1,5 @@
 // https://docs.cypress.io/api/introduction/api.html
 
-import { container } from "../../../src/services/container.ts";
-
 describe("Login Form Test", () => {
   it("Login button", () => {
     cy.visit("/login");
@@ -11,11 +9,17 @@ describe("Login Form Test", () => {
 
 describe("H1 test", () => {
   beforeEach(() => {
-    container.dep = "1.2";
+    cy.visit("/");
+
+    cy.window().then(win => {
+      console.log(win);
+      //todo here we assign container dependency for mocking
+      win.$container.set("dep", "1");
+    });
   });
 
   it("text", () => {
-    cy.visit("/");
-    cy.contains("h1", "1.2.3");
+    cy.get("button").click();
+    cy.contains("h1", "1");
   });
 });
