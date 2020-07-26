@@ -1,8 +1,8 @@
 import { createStore } from "vuex";
+import common from "@/store/common";
 
 export default createStore({
-  state: {},
-  mutations: {},
-  actions: {},
-  modules: {}
+  modules: {
+    common
+  }
 });

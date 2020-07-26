@@ -4,6 +4,7 @@
     <input
       class="input"
       :value="modelValue"
+      :type="type"
       @input="$emit('update:modelValue', $event.target.value)"
     />
   </label>
@@ -12,7 +13,7 @@
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
 
-@Options({ props: { label: String, modelValue: String } })
+@Options({ props: { label: String, modelValue: String, type: String } })
 export default class VInput extends Vue {}
 </script>
 

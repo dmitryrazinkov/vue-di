@@ -13,6 +13,7 @@
     <v-input
       class="login-form__input"
       label="Password"
+      type="password"
       v-model="credentials.password"
     ></v-input>
     <v-button type="submit" class="login-form__button">Login</v-button>
@@ -21,9 +22,9 @@
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import { Credentials } from "@/components/types";
 import VButton from "@/components/VButton.vue";
 import VInput from "@/components/VInput.vue";
+import { Credentials } from "@/services/userService";
 
 @Options({
   components: { VButton, VInput }
