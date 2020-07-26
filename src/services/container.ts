@@ -1,14 +1,20 @@
 //todo here we will have real container after integration with one of the exisitng solution
 import { UserService } from "@/services/userService";
+import { Logger, logToConsole } from "@/services/logger";
+import { Router } from "vue-router";
+import router from "@/router";
 
 interface IContainer {
-  dep: string;
-  user?: UserService;
+  user: UserService;
+  logger: Logger;
+  router: Router;
 }
 
 class Container {
   container: IContainer = {
-    dep: "1.2.3"
+    user: new UserService(),
+    logger: new Logger(logToConsole),
+    router: router
   };
 
   get(depName: keyof IContainer) {
@@ -21,8 +27,6 @@ class Container {
 }
 
 const container = new Container();
-
-container.set("user", new UserService());
 
 if ((window as any).Cypress) {
   // we store container in window in order to allow mocking in tests

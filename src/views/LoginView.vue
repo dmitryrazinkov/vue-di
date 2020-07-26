@@ -7,15 +7,14 @@
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
 import LoginForm from "../components/LoginForm.vue";
-import container from "@/services/container";
-import { Credentials, UserService } from "@/services/userService";
+import { Credentials } from "@/services/userService";
 
 @Options({
   components: { LoginForm }
 })
 export default class LoginView extends Vue {
   async login(credentials: Credentials) {
-    this.$store.dispatch("login", credentials);
+    await this.$store.dispatch("login", credentials);
   }
 }
 </script>

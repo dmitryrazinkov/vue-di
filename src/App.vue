@@ -2,6 +2,43 @@
   <router-view />
 </template>
 
+<script lang="ts">
+import { Vue } from "vue-class-component";
+import axios from "axios";
+
+export default class App extends Vue {
+  async created() {
+    axios.interceptors.request.use(config => {
+      const token = this.$store.state.token;
+
+      if (token) {
+        config.headers["Token"] = token;
+      }
+
+      return config;
+    });
+
+    axios.interceptors.response.use(undefined, async err => {
+      if (
+        err.response &&
+        err.response.status === 401 &&
+        this.$router.currentRoute.name !== "Login"
+      ) {
+        //todo store action
+        await this.$router.push({ name: "Login" });
+      }
+    });
+
+    const token = this.$store.state.token;
+
+    if (!token) {
+      //todo store action
+      await this.$router.push({ name: "Login" });
+    }
+  }
+}
+</script>
+
 <style>
 html {
   height: 100%;
