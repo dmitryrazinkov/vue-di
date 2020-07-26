@@ -1,32 +1,56 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
-  </div>
+  <router-view />
 </template>
 
+<script lang="ts">
+import { Vue } from "vue-class-component";
+import axios from "axios";
+
+export default class App extends Vue {
+  async created() {
+    axios.interceptors.request.use(config => {
+      const token = this.$store.state.token;
+
+      if (token) {
+        config.headers["Token"] = token;
+      }
+
+      return config;
+    });
+
+    axios.interceptors.response.use(undefined, async err => {
+      if (
+        err.response &&
+        err.response.status === 401 &&
+        this.$router.currentRoute.name !== "Login"
+      ) {
+        //todo store action
+        await this.$router.push({ name: "Login" });
+      }
+    });
+
+    const token = this.$store.state.token;
+
+    if (!token) {
+      //todo store action
+      await this.$router.push({ name: "Login" });
+    }
+  }
+}
+</script>
+
 <style>
+html {
+  height: 100%;
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+  height: 100%;
 }
 
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+body {
+  background-color: #5a4577;
+  margin: 0;
+  height: 100%;
 }
 </style>
