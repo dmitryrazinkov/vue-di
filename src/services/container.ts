@@ -3,18 +3,23 @@ import { UserService } from "@/services/userService";
 import { Logger, logToConsole } from "@/services/logger";
 import { Router } from "vue-router";
 import router from "@/router";
+import { I18n } from "vue-i18n";
+import { ErrorHandler } from "@/services/errorHandler";
 
 interface IContainer {
   user: UserService;
   logger: Logger;
   router: Router;
+  i18n?: I18n;
+  errorHandler: ErrorHandler;
 }
 
 class Container {
   container: IContainer = {
     user: new UserService(),
     logger: new Logger(logToConsole),
-    router: router
+    router: router,
+    errorHandler: new ErrorHandler()
   };
 
   get(depName: keyof IContainer) {

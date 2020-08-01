@@ -1,4 +1,4 @@
-import { Model, Server } from "miragejs";
+import { Model, Server, Response } from "miragejs";
 import { Credentials } from "@/services/userService";
 /*eslint-disable*/
 new Server({
@@ -19,6 +19,10 @@ new Server({
             const attrs: Credentials = JSON.parse(request.requestBody);
             // @ts-ignore
             const user = schema.users.findBy({username: attrs.username, password: attrs.password});
+
+            if (!user) {
+                return new Response(401, {}, {error: "INVALID_CREDS"});
+            }
 
             user.attrs.token = "str" + new Date().getTime();
 

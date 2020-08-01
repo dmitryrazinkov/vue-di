@@ -16,21 +16,25 @@
       type="password"
       v-model="credentials.password"
     ></v-input>
-    <v-button type="submit" class="login-form__button">Login</v-button>
+    <v-button type="submit" class="login-form__button">{{
+      i18n.t("login")
+    }}</v-button>
   </form>
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
+import { Options, setup, Vue } from "vue-class-component";
 import VButton from "@/components/VButton.vue";
 import VInput from "@/components/VInput.vue";
 import { Credentials } from "@/services/userService";
+import { useI18n } from "vue-i18n";
 
 @Options({
   components: { VButton, VInput }
 })
 export default class LoginForm extends Vue {
   credentials: Credentials = { username: "", password: "" };
+  i18n = setup(() => useI18n());
 }
 </script>
 

@@ -24,15 +24,15 @@ export default class App extends Vue {
         err.response.status === 401 &&
         this.$router.currentRoute.name !== "Login"
       ) {
-        //todo store action
-        await this.$router.push({ name: "Login" });
+        await this.$store.dispatch("logout");
       }
+
+      throw err;
     });
 
-    const token = this.$store.state.token;
+    const token = this.$store.state.common.token;
 
     if (!token) {
-      //todo store action
       await this.$router.push({ name: "Login" });
     }
   }
