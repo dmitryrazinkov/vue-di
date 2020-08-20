@@ -3,10 +3,11 @@
 </template>
 
 <script lang="ts">
-import { Vue } from "vue-class-component";
+import {Vue} from "vue-class-component";
 import axios from "axios";
 
 export default class App extends Vue {
+
   async created() {
     axios.interceptors.request.use(config => {
       const token = this.$store.state.token;

@@ -5,16 +5,24 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
+import {Options, Vue} from "vue-class-component";
 import LoginForm from "../components/LoginForm.vue";
-import { Credentials } from "@/services/userService";
+import {Credentials} from "@/services/userService";
+import {ComponentInject} from "@/services/helpers/componentInject";
+import {TYPES} from "@/services/helpers/containerTypes";
+import {ILogger} from "@/services/logger";
 
 @Options({
   components: { LoginForm }
 })
 export default class LoginView extends Vue {
+  @ComponentInject(TYPES.ILogger)
+  logger: ILogger;
+
   async login(credentials: Credentials) {
+    this.logger.logInfo("Initiate login!");
     await this.$store.dispatch("login", credentials);
+    this.logger.logInfo("Initiate logged in!");
   }
 }
 </script>

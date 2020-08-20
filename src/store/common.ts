@@ -1,10 +1,11 @@
-import { ActionContext } from "vuex";
-import { RootState } from "@/store/types";
-import { Credentials, UserService } from "@/services/userService";
-import container from "@/services/container";
-import { Logger } from "@/services/logger";
-import { Router } from "vue-router";
-import { ErrorHandler } from "@/services/errorHandler";
+import {ActionContext} from "vuex";
+import {RootState} from "@/store/types";
+import {Credentials, UserService} from "@/services/userService";
+import {Logger} from "@/services/logger";
+import {Router} from "vue-router";
+import {ErrorHandler} from "@/services/errorHandler";
+import {container} from "tsyringe";
+import {TYPES} from "@/services/helpers/containerTypes";
 
 export interface CommonState {
   token?: string;
@@ -17,18 +18,18 @@ const deps: {
   router: Router;
   errorHandler: ErrorHandler;
 } = {
-  //eslint-disable-next-line
-    // @ts-ignore
-  userService: container.get("user"),
-  //eslint-disable-next-line
-  //@ts-ignore
-  router: container.get("router"),
-  //eslint-disable-next-line
-  //@ts-ignore
-  logger: container.get("logger"),
-  //eslint-disable-next-line
-  //@ts-ignore
-  errorHandler: container.get("errorHandler")
+  get userService() {
+    return container.resolve(UserService);
+  },
+  get router() {
+    return container.resolve<Router>(TYPES.Router);
+  },
+  get logger() {
+    return container.resolve(Logger);
+  },
+  get errorHandler() {
+    return container.resolve(ErrorHandler);
+  }
 };
 
 const state = {
@@ -58,6 +59,7 @@ const actions = {
       if (e.response?.status === 401) {
         deps.errorHandler.handleError(e);
       }
+      deps.logger.logError(e);
       return;
     }
     commit("setToken", token);

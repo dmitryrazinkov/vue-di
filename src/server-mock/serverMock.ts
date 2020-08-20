@@ -1,5 +1,5 @@
-import { Model, Server, Response } from "miragejs";
-import { Credentials } from "@/services/userService";
+import {Model, Response, Server} from "miragejs";
+import {Credentials} from "@/services/userService";
 /*eslint-disable*/
 new Server({
     models: {
@@ -8,7 +8,7 @@ new Server({
 
     seeds(server) {
         server.create<string, any, any>("user", { username: "dmitry", password: "dmitry", token: null })
-        server.create<string, any, any>("user", { username: "dmitry", password: "nikita", token: null })
+        server.create<string, any, any>("user", { username: "nikita", password: "nikita", token: null })
     },
 
     routes() {
