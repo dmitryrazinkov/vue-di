@@ -6,7 +6,11 @@
       </v-button>
     </div>
     <div class="home-meme">
-      <img :src="'https://memegenerator.net/img/instances/59231645/say-dependency-injection-one-more-time-i-dare-you.jpg'">
+      <img
+        :src="
+          'https://memegenerator.net/img/instances/59231645/say-dependency-injection-one-more-time-i-dare-you.jpg'
+        "
+      />
     </div>
   </div>
 </template>
@@ -22,7 +26,7 @@ import {ILogger} from "@/services/logger";
 @Options({
   components: {
     VButton
-  },
+  }
 })
 export default class Home extends Vue {
   i18n = setup(() => useI18n());
@@ -33,7 +37,6 @@ export default class Home extends Vue {
   async logout() {
     this.logger.logInfo("Initiate logout!");
     await this.$store.dispatch("logout");
-    this.logger.logInfo("Logged out!");
   }
 }
 </script>

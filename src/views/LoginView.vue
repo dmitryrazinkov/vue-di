@@ -22,7 +22,6 @@ export default class LoginView extends Vue {
   async login(credentials: Credentials) {
     this.logger.logInfo("Initiate login!");
     await this.$store.dispatch("login", credentials);
-    this.logger.logInfo("Initiate logged in!");
   }
 }
 </script>

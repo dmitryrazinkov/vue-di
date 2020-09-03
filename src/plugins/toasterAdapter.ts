@@ -1,18 +1,15 @@
-import {Vue} from "vue-class-component";
-import ToastedPlugin, {Toasted, ToastOptions} from "vue-toasted";
+import ToastedPlugin, {ToastOptions} from "vue-toasted";
+import {App} from "@vue/runtime-core";
 
 export default {
-    install: (app: any, options: ToastOptions) => {
-        const Obj = class {};
-        (Obj as any).component = app.component;
-        ToastedPlugin.install(Obj, options);
+  install: <HostElement = any>(
+    app: App<HostElement>,
+    options: ToastOptions
+  ) => {
+    const Obj = class {};
+    (Obj as any).component = app.component;
+    ToastedPlugin.install(Obj, options);
 
-        app.config.globalProperties.$toasted = (Obj as any).prototype.$toasted;
-    }
-}
-
-declare module "vue-class-component" {
-    interface Vue {
-        $toasted: Toasted;
-    }
-}
+    app.config.globalProperties.$toasted = (Obj as any).prototype.$toasted;
+  }
+};

@@ -6,18 +6,13 @@ import {Router} from "vue-router";
 import {ErrorHandler} from "@/services/errorHandler";
 import {container} from "tsyringe";
 import {TYPES} from "@/services/helpers/containerTypes";
+import axios from "axios";
 
 export interface CommonState {
   token?: string;
 }
 
-//todo use real container
-const deps: {
-  userService: UserService;
-  logger: Logger;
-  router: Router;
-  errorHandler: ErrorHandler;
-} = {
+const deps = {
   get userService() {
     return container.resolve(UserService);
   },
@@ -57,7 +52,7 @@ const actions = {
       token = await deps.userService.login(payload);
     } catch (e) {
       if (e.response?.status === 401) {
-        deps.errorHandler.handleError(e);
+        deps.errorHandler.handleBackendError(e);
       }
       deps.logger.logError(e);
       return;
@@ -66,13 +61,47 @@ const actions = {
     await deps.router.push({ name: "Home" });
   },
 
-  logout: async ({
-    commit,
-    dispatch,
-    state
-  }: ActionContext<CommonState, RootState>) => {
+  logout: async ({ commit }: ActionContext<CommonState, RootState>) => {
     commit("setToken", undefined);
     await deps.router.push({ name: "Login" });
+  }
+};
+
+const actionsNoDi = {
+  login: async (
+    { commit, dispatch, state }: ActionContext<CommonState, RootState>,
+    payload: {
+      credentials: Credentials;
+      errorHandler: ErrorHandler;
+      logger: Logger;
+    }
+  ) => {
+    let token: string;
+
+    const { credentials, errorHandler, logger } = payload;
+
+    try {
+      token = (await axios.post("/api/login", credentials)).data;
+      logger.logInfo("Login successful:", credentials.username);
+    } catch (e) {
+      if (e.response?.status === 401) {
+        errorHandler.handleBackendError(e);
+      }
+      logger.logError(e);
+      return;
+    }
+    commit("setToken", token);
+    await deps.router.push({ name: "Home" });
+  },
+
+  logout: async (
+    { commit }: ActionContext<CommonState, RootState>,
+    payload: {
+      router: Router;
+    }
+  ) => {
+    commit("setToken", undefined);
+    await payload.router.push({ name: "Login" });
   }
 };
 

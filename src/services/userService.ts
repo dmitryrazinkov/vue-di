@@ -10,16 +10,11 @@ export interface Credentials {
 
 @injectable()
 export class UserService {
-
-  constructor(@inject(TYPES.ILogger) private logger: ILogger) {
-  }
+  constructor(@inject(TYPES.ILogger) private logger: ILogger) {}
 
   async login(credentials: Credentials): Promise<string> {
     const response = await axios.post("/api/login", credentials);
-    this.logger.logInfo(
-      "Login successful:",
-      credentials.username
-    );
+    this.logger.logInfo("Login successful:", credentials.username);
 
     return response.data;
   }

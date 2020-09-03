@@ -1,4 +1,4 @@
-import {injectable} from "tsyringe";
+import {singleton} from "tsyringe";
 
 export interface Log {
   level: "info" | "error" | "warn";
@@ -42,7 +42,7 @@ export function logToConsole(log: Log) {
   }
 }
 
-@injectable()
+@singleton()
 export class Logger implements ILogger {
   messages: Array<Log> = [];
 
