@@ -8,20 +8,29 @@
 import {Options, Vue} from "vue-class-component";
 import LoginForm from "../components/LoginForm.vue";
 import {Credentials} from "@/services/userService";
-import {ComponentInject} from "@/services/helpers/componentInject";
-import {TYPES} from "@/services/helpers/containerTypes";
-import {ILogger} from "@/services/logger";
 
 @Options({
   components: { LoginForm }
 })
 export default class LoginView extends Vue {
-  @ComponentInject(TYPES.ILogger)
-  logger: ILogger;
-
   async login(credentials: Credentials) {
-    this.logger.logInfo("Initiate login!");
+    this.$logger.logInfo("Initiate login!");
+
+    // With DI
     await this.$store.dispatch("login", credentials);
+
+    // Without DI: Plugins passed via payload
+    // await this.$store.dispatch("login", {
+    //   logger: this.$loggerPlugin,
+    //   credentials,
+    //   errorHandler: this.$errorHandlerPlugin
+    // });
+
+    // Without DI: Plugins passed via global property
+    // await this.$store.dispatch("login", credentials);
+
+    // Without DI: Plugins passed via root state
+    // await this.$store.dispatch("login", credentials);
   }
 }
 </script>

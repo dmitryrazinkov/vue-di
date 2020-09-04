@@ -19,9 +19,6 @@
 import {Options, setup, Vue} from "vue-class-component";
 import VButton from "@/components/VButton.vue";
 import {useI18n} from "vue-i18n";
-import {ComponentInject} from "@/services/helpers/componentInject";
-import {TYPES} from "@/services/helpers/containerTypes";
-import {ILogger} from "@/services/logger";
 
 @Options({
   components: {
@@ -31,12 +28,25 @@ import {ILogger} from "@/services/logger";
 export default class Home extends Vue {
   i18n = setup(() => useI18n());
 
-  @ComponentInject(TYPES.ILogger)
-  logger: ILogger;
+  // Example of usage injection decorator
+  // @ComponentInject(TYPES.ILogger)
+  // logger: ILogger;
 
   async logout() {
-    this.logger.logInfo("Initiate logout!");
+    // Example of usage services' plugin injection
+    this.$logger.logInfo("Initiate logout!");
+
+    // With DI
     await this.$store.dispatch("logout");
+
+    // Without DI: Plugins passed via payload
+    // await this.$store.dispatch("logout", { router: this.$router });
+
+    // Without DI: Plugins passed via global property
+    // await this.$store.dispatch("logout");
+
+    // Without DI: Plugins passed via root state
+    // await this.$store.dispatch("logout");
   }
 }
 </script>

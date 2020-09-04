@@ -51,7 +51,8 @@ export default class LoginForm extends Vue {
     if (validationErrors.length > 0) {
       validationErrors.forEach(message => {
         this.$errorHandler.handleError(new Error(message));
-        this.$errorHandlerPlugin.handleError(new Error(message));
+        // Plugins without DI
+        // this.$errorHandlerPlugin.handleError(new Error(message));
       });
       return;
     }
