@@ -18,19 +18,6 @@ export default class LoginView extends Vue {
 
     // With DI
     await this.$store.dispatch("login", credentials);
-
-    // Without DI: Plugins passed via payload
-    // await this.$store.dispatch("login", {
-    //   logger: this.$loggerPlugin,
-    //   credentials,
-    //   errorHandler: this.$errorHandlerPlugin
-    // });
-
-    // Without DI: Plugins passed via global property
-    // await this.$store.dispatch("login", credentials);
-
-    // Without DI: Plugins passed via root state
-    // await this.$store.dispatch("login", credentials);
   }
 }
 </script>

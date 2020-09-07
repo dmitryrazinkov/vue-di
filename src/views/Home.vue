@@ -38,15 +38,6 @@ export default class Home extends Vue {
 
     // With DI
     await this.$store.dispatch("logout");
-
-    // Without DI: Plugins passed via payload
-    // await this.$store.dispatch("logout", { router: this.$router });
-
-    // Without DI: Plugins passed via global property
-    // await this.$store.dispatch("logout");
-
-    // Without DI: Plugins passed via root state
-    // await this.$store.dispatch("logout");
   }
 }
 </script>
