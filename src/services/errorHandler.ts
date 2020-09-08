@@ -1,15 +1,24 @@
-import container from "@/services/container";
-import { AxiosError } from "axios";
-import { I18n } from "vue-i18n";
+import {AxiosError} from "axios";
+import {I18n} from "vue-i18n";
+import {inject, singleton} from "tsyringe";
+import {TYPES} from "@/services/helpers/containerTypes";
+import {IErrorToaster} from "@/services/errorToaster";
 
+@singleton()
 export class ErrorHandler {
-  get i18n(): I18n {
-    return container.get("i18n") as I18n;
+  constructor(
+    @inject(TYPES.i18n) private i18n: I18n,
+    @inject(TYPES.IErrorToaster) private errorToaster: IErrorToaster
+  ) {}
+
+  handleError(e: Error) {
+    this.errorToaster.show(
+      this.i18n.global.t(`error.${e.message || "COMMON_ERR"}`, e.message)
+    );
   }
 
-  handleError(e: AxiosError) {
-    //todo some toast service here
-    alert(
+  handleBackendError(e: AxiosError) {
+    this.errorToaster.show(
       this.i18n.global.t(`error.${e.response?.data.error || "COMMON_ERR"}`)
     );
   }

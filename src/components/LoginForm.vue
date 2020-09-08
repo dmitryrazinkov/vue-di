@@ -3,7 +3,7 @@
     class="login-form"
     novalidate
     autocomplete="off"
-    @submit.prevent="$emit('login', credentials)"
+    @submit.prevent="submit"
   >
     <v-input
       class="login-form__input"
@@ -23,11 +23,11 @@
 </template>
 
 <script lang="ts">
-import { Options, setup, Vue } from "vue-class-component";
+import {Options, setup, Vue} from "vue-class-component";
 import VButton from "@/components/VButton.vue";
 import VInput from "@/components/VInput.vue";
-import { Credentials } from "@/services/userService";
-import { useI18n } from "vue-i18n";
+import {Credentials} from "@/services/userService";
+import {useI18n} from "vue-i18n";
 
 @Options({
   components: { VButton, VInput }
@@ -35,6 +35,28 @@ import { useI18n } from "vue-i18n";
 export default class LoginForm extends Vue {
   credentials: Credentials = { username: "", password: "" };
   i18n = setup(() => useI18n());
+
+  submit() {
+    const { username, password } = this.credentials;
+
+    const validationErrors = [];
+
+    if (username.trim().length === 0) {
+      validationErrors.push("Username field is required");
+    }
+    if (password.trim().length === 0) {
+      validationErrors.push("Password field is required");
+    }
+
+    if (validationErrors.length > 0) {
+      validationErrors.forEach(message => {
+        this.$errorHandler.handleError(new Error(message));
+      });
+      return;
+    }
+
+    this.$emit("login", this.credentials);
+  }
 }
 </script>
 

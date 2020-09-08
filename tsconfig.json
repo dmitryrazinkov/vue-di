@@ -7,10 +7,10 @@
     "importHelpers": true,
     "moduleResolution": "node",
     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
-    "emitDecoratorMetadata": true,
     "allowJs": true,
     "noImplicitAny": true,
     "noImplicitThis": true,
@@ -45,6 +45,7 @@
     "tests/**/*.tsx"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "src/services/ErrorToaster.ts"
   ]
 }

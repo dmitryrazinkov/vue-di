@@ -5,15 +5,18 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
+import {Options, Vue} from "vue-class-component";
 import LoginForm from "../components/LoginForm.vue";
-import { Credentials } from "@/services/userService";
+import {Credentials} from "@/services/userService";
 
 @Options({
   components: { LoginForm }
 })
 export default class LoginView extends Vue {
   async login(credentials: Credentials) {
+    this.$logger.logInfo("Initiate login!");
+
+    // With DI
     await this.$store.dispatch("login", credentials);
   }
 }

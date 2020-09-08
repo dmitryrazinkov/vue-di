@@ -1,3 +1,5 @@
+import {singleton} from "tsyringe";
+
 export interface Log {
   level: "info" | "error" | "warn";
   message: string;
@@ -40,6 +42,7 @@ export function logToConsole(log: Log) {
   }
 }
 
+@singleton()
 export class Logger implements ILogger {
   messages: Array<Log> = [];
 
