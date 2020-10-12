@@ -3,13 +3,13 @@
 </template>
 
 <script lang="ts">
-import {Vue} from "vue-class-component";
+import { Vue } from "vue-class-component";
 import axios from "axios";
 
 export default class App extends Vue {
   async created() {
     axios.interceptors.request.use(config => {
-      const token = this.$store.state.token;
+      const token = this.$store.state.common.token;
 
       if (token) {
         config.headers["Token"] = token;
@@ -22,7 +22,7 @@ export default class App extends Vue {
       if (
         err.response &&
         err.response.status === 401 &&
-        this.$router.currentRoute.name !== "Login"
+        this.$router.currentRoute.value.name !== "Login"
       ) {
         await this.$store.dispatch("logout");
       }

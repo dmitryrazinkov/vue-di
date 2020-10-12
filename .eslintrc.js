@@ -28,5 +28,6 @@ module.exports = {
         jest: true
       }
     }
-  ]
+  ],
+  ignorePatterns: ["node_modules/"]
 };

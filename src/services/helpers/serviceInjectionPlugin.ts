@@ -1,6 +1,6 @@
 import InjectionToken from "tsyringe/dist/typings/providers/injection-token";
-import {container} from "tsyringe";
-import {App} from "@vue/runtime-core";
+import { container } from "tsyringe";
+import { App } from "@vue/runtime-core";
 
 function lazyInjection<InjectedType, HostElement = any>(
   app: App<HostElement>,

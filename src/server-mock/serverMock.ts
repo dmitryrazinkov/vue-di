@@ -1,5 +1,5 @@
-import {Model, Response, Server} from "miragejs";
-import {Credentials} from "@/services/userService";
+import { Model, Response, Server } from "miragejs";
+import { Credentials } from "@/services/userService";
 /*eslint-disable*/
 new Server({
   models: {

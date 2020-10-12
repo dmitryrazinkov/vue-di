@@ -16,9 +16,12 @@
 </template>
 
 <script lang="ts">
-import {Options, setup, Vue} from "vue-class-component";
+import { Options, setup, Vue } from "vue-class-component";
 import VButton from "@/components/VButton.vue";
-import {useI18n} from "vue-i18n";
+import { useI18n } from "vue-i18n";
+import { Store, useStore } from "vuex";
+import { RootState, StoreModules } from "@/store/types";
+import { CommonActionTypes } from "@/store/common";
 
 @Options({
   components: {
@@ -27,17 +30,16 @@ import {useI18n} from "vue-i18n";
 })
 export default class Home extends Vue {
   i18n = setup(() => useI18n());
-
-  // Example of usage injection decorator
-  // @ComponentInject(TYPES.ILogger)
-  // logger: ILogger;
+  store: Store<RootState> = setup(() => useStore());
 
   async logout() {
     // Example of usage services' plugin injection
     this.$logger.logInfo("Initiate logout!");
 
-    // With DI
-    await this.$store.dispatch("logout");
+    //todo improve typings
+    await this.store.dispatch(
+      `${StoreModules.COMMON}/${CommonActionTypes.LOGOUT}`
+    );
   }
 }
 </script>
