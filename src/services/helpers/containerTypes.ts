@@ -2,6 +2,6 @@ export const TYPES = {
   VuePlugins: Symbol.for("VuePlugins"),
   Router: Symbol.for("Router"),
   i18n: Symbol.for("i18n"),
-  IErrorToaster: Symbol.for("IErrorToaster"),
+  IToaster: Symbol.for("IToaster"),
   ILogger: Symbol.for("ILogger")
 };

@@ -1,7 +1,7 @@
 import axios from "axios";
-import {ILogger} from "@/services/logger";
-import {inject, injectable} from "tsyringe";
-import {TYPES} from "@/services/helpers/containerTypes";
+import { ILogger } from "@/services/logger";
+import { inject, injectable } from "tsyringe";
+import { TYPES } from "@/services/helpers/containerTypes";
 
 export interface Credentials {
   username: string;

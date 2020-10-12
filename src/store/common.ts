@@ -1,15 +1,16 @@
-import {ActionContext} from "vuex";
-import {RootState} from "@/store/types";
-import {Credentials, UserService} from "@/services/userService";
-import {Logger} from "@/services/logger";
-import {Router} from "vue-router";
-import {ErrorHandler} from "@/services/errorHandler";
-import {container} from "tsyringe";
-import {TYPES} from "@/services/helpers/containerTypes";
-
-export interface CommonState {
-  token?: string;
-}
+import {
+  ActionContext,
+  ActionTree,
+  MutationTree,
+  Store as VuexStore
+} from "vuex";
+import { AugmentedActionContext, RootState } from "@/store/types";
+import { Credentials, UserService } from "@/services/userService";
+import { Logger } from "@/services/logger";
+import { Router } from "vue-router";
+import { ErrorHandler } from "@/services/errorHandler";
+import { container } from "tsyringe";
+import { TYPES } from "@/services/helpers/containerTypes";
 
 const deps = {
   get userService() {
@@ -26,12 +27,42 @@ const deps = {
   }
 };
 
+export interface CommonState {
+  token?: string;
+}
+
+export enum CommonMutationTypes {
+  SET_TOKEN = "setToken"
+}
+
+export interface CommonMutations {
+  [CommonMutationTypes.SET_TOKEN](state: CommonState, payload: string): void;
+}
+
+export enum CommonActionTypes {
+  LOGIN = "login",
+  LOGOUT = "logout"
+}
+
+type CommonActionContext = AugmentedActionContext<CommonMutations, CommonState>;
+
+export interface CommonActions {
+  [CommonActionTypes.LOGIN](
+    context: CommonActionContext,
+    payload: Credentials
+  ): Promise<void>;
+  [CommonActionTypes.LOGOUT](context: CommonActionContext): Promise<void>;
+}
+
 const state = {
   token: localStorage.getItem("token")
 };
 
-const mutations = {
-  setToken(state: CommonState, token: string | undefined) {
+const mutations: MutationTree<CommonState> & CommonMutations = {
+  [CommonMutationTypes.SET_TOKEN]: (
+    state: CommonState,
+    token: string | undefined
+  ) => {
     if (token) {
       localStorage.setItem("token", token);
     } else {
@@ -41,8 +72,8 @@ const mutations = {
   }
 };
 
-const actions = {
-  login: async (
+const actions: ActionTree<CommonState, RootState> & CommonActions = {
+  [CommonActionTypes.LOGIN]: async (
     { commit, dispatch, state }: ActionContext<CommonState, RootState>,
     payload: Credentials
   ) => {
@@ -60,13 +91,16 @@ const actions = {
     await deps.router.push({ name: "Home" });
   },
 
-  logout: async ({ commit }: ActionContext<CommonState, RootState>) => {
+  [CommonActionTypes.LOGOUT]: async ({
+    commit
+  }: ActionContext<CommonState, RootState>) => {
     commit("setToken", undefined);
     await deps.router.push({ name: "Login" });
   }
 };
 
 export default {
+  namespaced: true,
   state,
   mutations,
   actions

@@ -1,4 +1,4 @@
-import {singleton} from "tsyringe";
+import { singleton } from "tsyringe";
 
 export interface Log {
   level: "info" | "error" | "warn";

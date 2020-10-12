@@ -19,6 +19,7 @@
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
     "strictFunctionTypes": true,
+    "skipLibCheck": true,
     "baseUrl": ".",
     "types": [
       "webpack-env",

@@ -23,11 +23,11 @@
 </template>
 
 <script lang="ts">
-import {Options, setup, Vue} from "vue-class-component";
+import { Options, setup, Vue } from "vue-class-component";
 import VButton from "@/components/VButton.vue";
 import VInput from "@/components/VInput.vue";
-import {Credentials} from "@/services/userService";
-import {useI18n} from "vue-i18n";
+import { Credentials } from "@/services/userService";
+import { useI18n } from "vue-i18n";
 
 @Options({
   components: { VButton, VInput }
